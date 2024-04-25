@@ -1,0 +1,7 @@
+[theme]
+primarycolor = '#ff4b4b'
+base="dark"
+backgroundColor ="#70e6d2"
+backgroundColor = '#262730'
+textcolor = '#fafafa'
+frontfamily = 'sans serif'
