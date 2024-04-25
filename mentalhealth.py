@@ -55,6 +55,10 @@ st.markdown("<h4 style = 'margin: -30px; color: #F11A7B; text-align: center; fon
 st.markdown("<br>", unsafe_allow_html= True)
 st.markdown("<br>", unsafe_allow_html= True)
 
+
+user_hist = []
+reply_hist = []
+
 robot_image, space1, space2, chats,  = st.columns(4)
 with robot_image:
      robot_image.image('pngwing.com (4).png', width = 500)
@@ -89,9 +93,13 @@ random_farewell = random.choice(bot_farewell)
 
 if user_message.lower() in human_exits:
     chats.write(f"\nchatbot:{random_farewell}!")
+    user_hist.append(user_message)
+    reply_hist.append(random_greeting)
 
 elif user_message.lower() in human_greetings:
     chats.write(f"\nchatbot: {random_greeting}!")
+    user_hist.append(user_message)
+    reply_hist.append(random_greeting)
 
 elif user_message == '':
     chats.write('')
@@ -99,4 +107,55 @@ elif user_message == '':
 else:
     response = responder(user_message)
     chats.write(f"\nchatbot: {response}")
+    user_hist.append(user_message)
+    reply_hist.append(random_greeting)
 
+
+# Clearing Chat History 
+def clearHistory():
+    with open('history.txt', 'w') as file:
+        pass  
+
+    with open('reply.txt', 'w') as file:
+        pass
+
+
+    # Save the history of user texts
+import csv
+with open('history.txt', 'a') as file:
+        for item in user_hist:
+            file.write(str(item) + '\n')
+
+# Save the history bot reply
+with open('reply.txt', 'a') as file:
+       for item in reply_hist:
+            file.write(str(item) + '\n')
+
+# Import the file to display it in the frontend 
+with open('history.txt') as f:
+    reader = csv.reader(f)
+    data1 = list(reader)
+
+with open('reply.txt') as f:
+    reader = csv.reader(f)
+    data2 = list(reader)
+
+data1 = pd.Series(data1)
+data2 = pd.Series(data2)
+
+history = pd.DataFrame({'User Input': data1, 'Bot Reply': data2})
+
+# History = pd.Series(data)
+st.subheader('Chat History', divider = True)
+st.dataframe(history, use_container_width= True)
+# st.sidebar.write(data2)
+
+if st.button('Clear Chat History'):
+    clearHistory()
+    
+# primarycolor = '#ff4b4b'
+# base="dark"
+# backgroundColor ="#70e6d2"
+# backgroundColor = '#262730'
+# textcolor = '#fafafa'
+# frontfamily = 'sans serif'
