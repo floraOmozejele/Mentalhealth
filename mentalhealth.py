@@ -150,7 +150,7 @@ st.subheader('Chat History', divider = True)
 st.dataframe(history, use_container_width= True)
 # st.sidebar.write(data2)
 
-if st.button('Clear Chat History'):
+if st.button('End Chat'):
     clearHistory()
     
 # primarycolor = '#ff4b4b'
