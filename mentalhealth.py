@@ -65,51 +65,51 @@ with robot_image:
 
 with chats:
     user_message = chats.text_input('Hello, What do you want to inquire')
-def responder(text):
-    user_input_processed = preprocess_text(text)
-    vectorized_user_input = tfidf_vectorizer.transform([user_input_processed])
-    similarity_score = cosine_similarity(vectorized_user_input, corpus)
-    argument_maximum = similarity_score.argmax()
-    return (data['Answers'].iloc[argument_maximum])
-
-bot_greetings = ['Hello user, You are chatting with Mide......pls ask your question',
-                 'Hi user, how  may i help you',
-                 'Hey, what do you need my help with',
-                 'Hiyya, how can i be of help to you',
-                 'Wassap I am here to assist you with anything']
-
-bot_farewell = ['Thanks for your usage..... bye',
-                'Thank you so much for your time',
-                'Okay, have a nice day',
-                'Alright, stay safe']
-
-human_greetings = ['hi', 'hello there', 'hey', 'hello', 'wassap']
-
-human_exits = ['thanks bye', 'bye', 'quit', 'exit', 'bye bye', 'close']
-
-import random
-random_greeting = random.choice(bot_greetings)
-random_farewell = random.choice(bot_farewell)
-
-if user_message.lower() in human_exits:
-    chats.write(f"\nchatbot:{random_farewell}!")
-    user_hist.append(user_message)
-    reply_hist.append(random_greeting)
-
-elif user_message.lower() in human_greetings:
-    chats.write(f"\nchatbot: {random_greeting}!")
-    user_hist.append(user_message)
-    reply_hist.append(random_greeting)
-
-elif user_message == '':
-    chats.write('')
-
-else:
-    response = responder(user_message)
-    chats.write(f"\nchatbot: {response}")
-    user_hist.append(user_message)
-    reply_hist.append(random_greeting)
-
+    def responder(text):
+        user_input_processed = preprocess_text(text)
+        vectorized_user_input = tfidf_vectorizer.transform([user_input_processed])
+        similarity_score = cosine_similarity(vectorized_user_input, corpus)
+        argument_maximum = similarity_score.argmax()
+        return (data['Answers'].iloc[argument_maximum])
+    
+    bot_greetings = ['Hello user, You are chatting with Mide......pls ask your question',
+                     'Hi user, how  may i help you',
+                     'Hey, what do you need my help with',
+                     'Hiyya, how can i be of help to you',
+                     'Wassap I am here to assist you with anything']
+    
+    bot_farewell = ['Thanks for your usage..... bye',
+                    'Thank you so much for your time',
+                    'Okay, have a nice day',
+                    'Alright, stay safe']
+    
+    human_greetings = ['hi', 'hello there', 'hey', 'hello', 'wassap']
+    
+    human_exits = ['thanks bye', 'bye', 'quit', 'exit', 'bye bye', 'close']
+    
+    import random
+    random_greeting = random.choice(bot_greetings)
+    random_farewell = random.choice(bot_farewell)
+    
+    if user_message.lower() in human_exits:
+        chats.write(f"\nchatbot:{random_farewell}!")
+        user_hist.append(user_message)
+        reply_hist.append(random_greeting)
+    
+    elif user_message.lower() in human_greetings:
+        chats.write(f"\nchatbot: {random_greeting}!")
+        user_hist.append(user_message)
+        reply_hist.append(random_greeting)
+    
+    elif user_message == '':
+        chats.write('')
+    
+    else:
+        response = responder(user_message)
+        chats.write(f"\nchatbot: {response}")
+        user_hist.append(user_message)
+        reply_hist.append(random_greeting)
+    
 
 # Clearing Chat History 
 def clearHistory():
